@@ -5,6 +5,10 @@
 	<mx:Script>
 		<![CDATA[
 			import mx.controls.Alert;
+			/**
+			 * 実験用のデータを投入する<br>
+			 * DB代わり<br>
+			 */
 			private function initSystem(event:MouseEvent):void{
 				Alert.show("システムに初期データを投入します。（未実装）" );
 			}
