@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
+		 width="100%" height="100%"
+		 >
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			private function initSystem(event:MouseEvent):void{
+				Alert.show("システムに初期データを投入します。（未実装）" );
+			}
+		]]>
+	</mx:Script>
+	<mx:Label text="トップ画面" />
+	<mx:Button label="初期化" click="initSystem(event)" />
+</mx:VBox>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+				xmlns:top="features.top.*"
+				layout="vertical"
+				>
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.events.MenuEvent;
+
+			[Bindable]
+			private var menuList:XMLList =
+				<>
+				<item name="図書検索" value="search"/>
+				<item name="図書登録" value="register"/>
+				</>;
+
+			private function changeMenu(event:MenuEvent):void{
+				switch(event.item.@value){
+					case "search":{
+						break;
+					}
+					case "register":{
+						break;
+					}
+				}
+			}
+		]]>
+	</mx:Script>
+	<mx:HBox width="100%" height="50"
+			 backgroundColor="#1DD2F4"
+			 >
+		<mx:Label text="書棚管理システム（仮）"
+				  fontSize="15"
+				  />
+	</mx:HBox>
+	<mx:MenuBar id="menuBar" width="100%"
+				labelField="@name"
+				dataProvider="{menuList}"
+				change="changeMenu(event)"
+				/>
+	<mx:ViewStack id="viewStack"
+				  creationPolicy="all"
+				  >
+		<top:Top id="top"/>
+	</mx:ViewStack>
+</mx:Application>
