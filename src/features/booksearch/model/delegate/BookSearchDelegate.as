@@ -37,9 +37,11 @@ package features.booksearch.model.delegate
 				var title:String = condition.title;
 				var fromDate:Date = condition.from;
 				var toDate:Date = condition.to;
-				toDate.hours = 23;
-				toDate.minutes = 59;
-				toDate.seconds = 59;
+				if(toDate){
+					toDate.hours = 23;
+					toDate.minutes = 59;
+					toDate.seconds = 59;
+				}
 
 				list.filterFunction = searchFilter;
 				list.refresh();
