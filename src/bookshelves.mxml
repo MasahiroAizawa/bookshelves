@@ -3,6 +3,7 @@
 				xmlns:top="features.top.*"
 				xmlns:booksearch="features.booksearch.view.component.*"
 				layout="vertical"
+				creationComplete="facade.startup(this)"
 				>
 	<mx:Style>
 		GridItem {
@@ -15,8 +16,11 @@
 	</mx:Style>
 	<mx:Script>
 		<![CDATA[
-			import mx.controls.Alert;
+			import base.BaseFacade;
+
 			import mx.events.MenuEvent;
+
+			private var facade:BaseFacade = BaseFacade.getInstance();
 
 			/**
 			 * メニューバーに表示するメニュー<br>

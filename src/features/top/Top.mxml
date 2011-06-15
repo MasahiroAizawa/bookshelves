@@ -4,16 +4,20 @@
 		 >
 	<mx:Script>
 		<![CDATA[
+			import datastore.BookDataStore;
+
 			import mx.controls.Alert;
 			/**
 			 * 実験用のデータを投入する<br>
 			 * DB代わり<br>
 			 */
 			private function initSystem(event:MouseEvent):void{
-				Alert.show("システムに初期データを投入します。（未実装）" );
+				Alert.show("システムに初期データを投入します。" );
+
+				BookDataStore.createBookData();
 			}
 		]]>
 	</mx:Script>
 	<mx:Label text="トップ画面" />
-	<mx:Button label="初期化" click="initSystem(event)" />
+	<mx:Button label="初期データ投入" click="initSystem(event)" />
 </mx:VBox>

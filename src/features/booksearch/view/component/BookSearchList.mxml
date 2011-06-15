@@ -2,6 +2,25 @@
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
 		 xmlns:component="features.booksearch.view.component.*"
 		 width="100%" height="100%"
+		 creationComplete="init()"
 		 >
+	<mx:Script>
+		<![CDATA[
+			import base.MediatorManager;
+
+			import features.booksearch.view.mediator.BookSearchListMediator;
+
+			[Bindable]
+			public var resultVisible:Boolean = false;
+
+			private function init():void{
+				MediatorManager.setMediator(new BookSearchListMediator(this));
+			}
+		]]>
+	</mx:Script>
 	<component:SearchPanel id="searchPanel" />
+	<component:BookSearchResultList id="bookResultList"
+									visible="{resultVisible}"
+									includeInLayout="{resultVisible}"
+									/>
 </mx:VBox>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
+		 width="100%" height="100%"
+		 creationComplete="init()"
+		 >
+	<mx:Script>
+		<![CDATA[
+			import entity.Book;
+
+			import mx.collections.ArrayCollection;
+
+			[Bindable]
+			public var bookList:ArrayCollection;
+
+			private function init():void{
+				bookList = new ArrayCollection();
+			}
+
+			private function setDateString(item:Object, column:DataGridColumn):String{
+				if(!item) return "";
+				if(!(item is Book)) return "";
+				var book:Book = Book(item);
+				if(book.registerDate == null) return "";
+				var dateString:String = book.registerDate.fullYear +
+					"/" + (book.registerDate.month + 1) + "/" +
+					book.registerDate.date;
+				return dateString;
+			}
+		]]>
+	</mx:Script>
+	<mx:HBox width="100%"
+			 horizontalAlign="center"
+			 >
+		<mx:Label text="書棚検索結果" />
+	</mx:HBox>
+	<mx:DataGrid id="bookSearchResult"
+				 dataProvider="{bookList}"
+				 width="100%" height="100%"
+				 >
+		<mx:columns>
+			<mx:DataGridColumn dataField="isbn"
+							   headerText="ISBN"
+							   width="10"
+							   />
+			<mx:DataGridColumn dataField="title"
+							   headerText="書籍名"
+							   width="20"
+							   />
+			<mx:DataGridColumn dataField="explain"
+							   headerText="概要"
+							   width="30"
+							   />
+			<mx:DataGridColumn dataField="registerDate"
+							   headerText="登録日"
+							   width="8"
+							   labelFunction="setDateString"
+							   />
+		</mx:columns>
+	</mx:DataGrid>
+</mx:VBox>

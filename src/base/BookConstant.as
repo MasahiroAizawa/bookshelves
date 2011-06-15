@@ -7,6 +7,6 @@ package base
 	 */
 	public class BookConstant
 	{
-		
+
 	}
 }
