@@ -2,6 +2,7 @@ package
 {
 	import base.BaseSimpleCommand;
 
+	import features.bookregister.controller.command.BookRegisterStartUpCommand;
 	import features.booksearch.controller.command.BookSearchStartUpCommand;
 
 	import org.puremvc.as3.interfaces.INotification;
@@ -21,6 +22,10 @@ package
 			//書棚検索
 			var bookSearchCommand:BookSearchStartUpCommand = new BookSearchStartUpCommand();
 			bookSearchCommand.execute(notification);
+
+			//書棚登録
+			var bookRegisterCommand:BookRegisterStartUpCommand = new BookRegisterStartUpCommand();
+			bookRegisterCommand.execute(notification);
 		}
 	}
 }

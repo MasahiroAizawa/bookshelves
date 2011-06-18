@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
+		 width="100%" height="100%"
+		 creationComplete="init()"
+		 >
+	<mx:Metadata>
+		[Event('bookSend')]
+	</mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import base.MediatorManager;
+
+			import entity.Book;
+
+			import features.bookregister.variable.event.BookRegisterEvent;
+			import features.bookregister.view.mediator.BookRegisterInputMediator;
+
+			import mx.controls.Alert;
+			import mx.events.ValidationResultEvent;
+			import mx.validators.ValidationResult;
+			import mx.validators.Validator;
+
+			public static const BOOK_SEND:String = "bookSend";
+
+			private function init():void{
+				bookInputComponents = [
+					isbnInput,
+					titleInput,
+					explainInput
+				];
+
+				MediatorManager.setMediator(new BookRegisterInputMediator(this));
+			}
+
+			/**
+			 * コンポーネントの一覧のArray<br>
+			 */
+			private static var bookInputComponents:Array;
+
+			/**
+			 * 各コンポーネントを初期化する<br>
+			 */
+			public function clearInput():void{
+				//コンポーネントの入力値の初期化
+				bookInputComponents.forEach(function (item:*, index:int, array:Array):void{
+					if(item is TextInput || item is TextArea)
+						item.text = "";
+				});
+				//入力チェックの初期化
+				validators.forEach(function (item:*, index:int, array:Array):void{
+					if(item is Validator)
+						Validator(item)
+						.dispatchEvent(new ValidationResultEvent(ValidationResultEvent.VALID));
+				});
+			}
+
+			/**
+			 * 画面に入力した値を集めて新しい本のEntityを作って確認画面へ<br>
+			 */
+			private function inputDataSend(event:MouseEvent):void{
+				var errors:Array = Validator.validateAll(validators);
+				if(errors.length > 0){
+					Alert.show("赤枠の項目を修正してください。", "入力エラー");
+					return;
+				}
+
+				var newBook:Book = new Book();
+				newBook.isbn = isbnInput.text;
+				newBook.title = titleInput.text;
+				newBook.explain = explainInput.text;
+				newBook.registerDate = new Date();
+
+				dispatchEvent(new BookRegisterEvent(BOOK_SEND, newBook));
+			}
+		]]>
+	</mx:Script>
+	<!-- 入力チェック -->
+	<mx:Array id="validators" >
+		<mx:StringValidator id="isbnValidator"
+							minLength="10"
+							maxLength="20"
+							required="true"
+							source="{isbnInput}"
+							property="text"
+							/>
+		<mx:StringValidator id="titleValidator"
+							required="true"
+							source="{titleInput}"
+							property="text"
+							/>
+		<mx:StringValidator id="explainValidator"
+							required="false"
+							source="{explainInput}"
+							property="text"
+							/>
+	</mx:Array>
+
+	<mx:HBox width="100%" >
+		<mx:Label text="書棚 図書登録" />
+	</mx:HBox>
+	<mx:Form width="100%">
+		<mx:FormItem width="50%"
+					 label="ISBN"
+					 required="true">
+			<mx:TextInput id="isbnInput" width="100%"
+						  restrict="0-9cCxX-"
+						  maxChars="20"
+						  />
+		</mx:FormItem>
+		<mx:FormItem width="50%"
+					 label="書籍名"
+					 required="true"
+					 >
+			<mx:TextInput id="titleInput" width="100%"
+						  maxChars="200"
+						  />
+		</mx:FormItem>
+		<mx:FormItem width="50%"
+					 label="概要">
+			<mx:TextArea id="explainInput" width="100%"
+						 height="150"
+						 maxChars="1500"
+						 />
+		</mx:FormItem>
+	</mx:Form>
+	<mx:HBox width="100%"
+			 horizontalAlign="right"
+			 >
+		<mx:Button label="確認" click="{inputDataSend(event)}" />
+	</mx:HBox>
+</mx:VBox>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
+		 width="100%" height="100%"
+		 creationComplete="init()"
+		 >
+	<mx:Metadata>
+		[Event('returnInput')]
+		[Event('searchBook')]
+	</mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import base.MediatorManager;
+
+			import features.bookregister.view.mediator.BookRegisterCompleteMediator;
+
+			public static const RETURN_INPUT:String = "returnInput";
+			public static const SEARCH_BOOK:String = "searchBook";
+
+			private function init():void{
+				MediatorManager.setMediator(new BookRegisterCompleteMediator(this));
+			}
+
+			/**
+			 * 登録情報入力画面に戻る<br>
+			 */
+			private function resetRegister():void{
+				dispatchEvent(new Event(RETURN_INPUT));
+			}
+
+			/**
+			 * 検索画面に遷移する<br>
+			 */
+			private function searchBook():void{
+				dispatchEvent(new Event(SEARCH_BOOK));
+			}
+		]]>
+	</mx:Script>
+	<mx:Label text="書籍の登録が完了しました。" />
+	<mx:Button label="続けて登録する" click="resetRegister()" />
+	<mx:Button label="書籍を検索する" click="searchBook()" />
+</mx:VBox>

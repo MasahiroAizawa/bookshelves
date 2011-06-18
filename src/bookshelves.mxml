@@ -2,8 +2,9 @@
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
 				xmlns:top="features.top.*"
 				xmlns:booksearch="features.booksearch.view.component.*"
+				xmlns:bookregister="features.bookregister.view.component.*"
 				layout="vertical"
-				creationComplete="facade.startup(this)"
+				creationComplete="init()"
 				>
 	<mx:Style>
 		GridItem {
@@ -14,11 +15,26 @@
 			border-style:solid;
 		}
 	</mx:Style>
+	<mx:Metadata>
+		[Event('bookResiterInit')]
+		[Event('bookSearchList')]
+	</mx:Metadata>
 	<mx:Script>
 		<![CDATA[
 			import base.BaseFacade;
+			import base.MediatorManager;
 
 			import mx.events.MenuEvent;
+
+			import org.puremvc.as3.patterns.mediator.Mediator;
+
+			public static const BOOK_REGISTER_INIT:String = "bookRegisterInit";
+			public static const BOOK_SEARCH_INIT:String = "bookSearchInit";
+
+			/**
+			 * このメインアプリのMediatorの名前<br>
+			 */
+			public static const BOOK_SHELVES:String = "bookShelves";
 
 			private var facade:BaseFacade = BaseFacade.getInstance();
 
@@ -34,6 +50,12 @@
 				</menu>
 				</>;
 
+			private function init():void{
+				facade.startup(this);
+
+				MediatorManager.setMediator(new BookShelvesMediator(this));
+			}
+
 			/**
 			 * トップ画面に戻る<br>
 			 */
@@ -47,9 +69,12 @@
 			private function changeMenu(event:MenuEvent):void{
 				switch(event.item.@value[0].toString()){
 					case "search":
+						dispatchEvent(new Event(BOOK_SEARCH_INIT));
 						viewStack.selectedChild = bookSearchList;
 						break;
 					case "register":
+						dispatchEvent(new Event(BOOK_REGISTER_INIT));
+						viewStack.selectedChild = bookRegisterInput;
 						break;
 				}
 			}
@@ -75,6 +100,11 @@
 				  creationPolicy="all"
 				  >
 		<top:Top id="top"/>
+		<!-- 書棚検索 -->
 		<booksearch:BookSearchList id="bookSearchList" />
+		<!-- 書棚登録 -->
+		<bookregister:BookRegisterInput id="bookRegisterInput" />
+		<bookregister:BookRegisterConfirm id="bookRegisterConfirm" />
+		<bookregister:BookRegisterComplete id="bookRegisterComplete" />
 	</mx:ViewStack>
 </mx:Application>

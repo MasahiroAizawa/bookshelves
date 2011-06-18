@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
+		 width="100%" height="100%"
+		 creationComplete="init()"
+		 >
+	<mx:Metadata>
+		[Event('bookRegister')]
+	</mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import base.MediatorManager;
+
+			import entity.Book;
+
+			import features.bookregister.variable.event.BookRegisterEvent;
+			import features.bookregister.view.mediator.BookRegisterConfirmMediator;
+
+			public static const BOOK_REGISTER:String = "bookRegister";
+
+			[Bindable]
+			public var book:Book;
+
+			private function init():void{
+				MediatorManager.setMediator(new BookRegisterConfirmMediator(this));
+			}
+
+			/**
+			 * 書棚に本を登録する処理を投げる<br>
+			 */
+			public function registerBook(event:MouseEvent):void{
+				dispatchEvent(new BookRegisterEvent(BOOK_REGISTER, book));
+			}
+		]]>
+	</mx:Script>
+	<mx:HBox width="100%"
+			 horizontalAlign="right"
+			 >
+		<mx:Label text="登録内容確認" />
+	</mx:HBox>
+	<mx:Form width="100%">
+		<mx:FormItem width="50%" label="ISBN">
+			<mx:Label text="{book.isbn}" />
+		</mx:FormItem>
+		<mx:FormItem width="50%" label="書籍名" >
+			<mx:Label text="{book.title}" />
+		</mx:FormItem>
+		<mx:FormItem width="50%" label="概要" >
+			<mx:Label text="{book.explain}" />
+		</mx:FormItem>
+		<mx:FormItem width="50%" label="登録日" >
+			<mx:Label text="{book.YYYYMMDD}" />
+		</mx:FormItem>
+	</mx:Form>
+	<mx:HBox width="100%" horizontalAlign="right" >
+		<mx:Button label="登録" click="{registerBook(event)}" />
+	</mx:HBox>
+</mx:VBox>
